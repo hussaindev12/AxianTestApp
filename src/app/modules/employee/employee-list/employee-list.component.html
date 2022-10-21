@@ -1,0 +1,179 @@
+
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <!-- Container wrapper -->
+    <div class="container-fluid">
+      <!-- Navbar brand -->
+      <a class="navbar-brand" routerLink="/employee/list">Employee</a>
+      <!-- Toggle button -->
+      <button
+        class="navbar-toggler"
+        type="button"
+      
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <i class="fas fa-bars"></i>
+      </button>
+      <!-- Collapsible wrapper -->
+      <div
+        class="collapse navbar-collapse"
+        id="navbarSupportedContent"
+        mdbCollaps      
+      >
+        <!-- Left links -->
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Department</a>
+          </li>
+        </ul>
+      </div>
+      <!-- Collapsible wrapper -->
+    </div>
+    <!-- Container wrapper -->
+  </nav>
+  <!-- Navbar -->
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6">
+            <h2>Employee</h2>
+        </div>
+        <div class="col-md-6 " align="right">
+            <button style="margin: 50px; padding: 10px"
+            type="button"
+            class="btn btn-primary"
+            (click)="openPopup()">
+      Add
+    </button>
+        </div>
+    </div>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>DOB</th>
+                <th>Email</th>
+                <th>Salary</th>
+                <th>Leave Per Year</th>
+                <th>Sick leave</th>
+                <th>Dep Name</th>
+                <th>Edit</th>
+                <th>Delete</th>
+                
+
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of employeeList">
+                <td>{{item.fullName}}</td>
+                <td>{{item.dob}}</td>
+                <td>{{item.email}}</td>
+                <td>{{item.salary}}</td>
+                <td>{{item.leavPeryear}}</td>
+                <td>{{item.sickLeave}}</td>
+                <td>{{item.depName}}</td>
+                <td><button type="button" class="btn btn-info" (click)="getEmployee(item.id)">Edit</button></td>
+                <td><button type="button" class="btn btn-warning" (click)="deleteEmployee(item.id)">Delete</button></td>
+                
+
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- Add Employee Popup -->
+<div class="modal"
+     tabindex="-1"
+     role="dialog"
+     [ngStyle]="{'display':displayStyle}">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Add Employee</h4>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="employeeForm" (ngSubmit)="onSubmit()">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="inputEmail4">Full Name</label>             
+                <input type="text" formControlName="fullName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f['fullName'].errors }" />
+                <!-- <div *ngIf="submitted && f['fullName'].errors" class="invalid-feedback">
+                    <div *ngIf="f['fullName'].errors['required']">Name is required</div>
+                </div> -->
+              </div>
+              
+            </div>
+            <div class="form-group">
+              <label for="inputAddress">Email</label>
+              <input type="email" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && f['email'].errors }" />
+              <!-- <div *ngIf="submitted && f['email'].errors" class="invalid-feedback">
+                <div *ngIf="f['email'].errors['required']">Email is required</div>
+            </div> -->
+            </div>
+            <div class="form-group">
+              <label for="inputAddress2">Address</label>
+              <input type="text" formControlName="address" class="form-control" [ngClass]="{ 'is-invalid': submitted && f['address'].errors }" />
+              <!-- <div *ngIf="submitted && f['address'].errors" class="invalid-feedback">
+                <div *ngIf="f['address'].errors['required']">Address is required</div>
+            </div> -->
+            </div>
+            <div class="form-row">
+                <div class="form-group ">
+                  <label for="inputEmail4">Leave Per Year</label>
+                  <input type="number" formControlName="leavPeryear" class="form-control" [ngClass]="{ 'is-invalid': submitted && f['leavPeryear'].errors }" />
+                  <!-- <div *ngIf="submitted && f['leavPeryear'].errors" class="invalid-feedback">
+                    <div *ngIf="f['leavPeryear'].errors['required']">leave per year is required</div>
+                </div> -->
+                </div>
+                <div class="form-group ">
+                  <label for="inputPassword4">Sick Leave</label>
+                  <input type="number" formControlName="sickLeave" class="form-control" [ngClass]="{ 'is-invalid': submitted && f['sickLeave'].errors }" />
+                  <!-- <div *ngIf="submitted && f['sickLeave'].errors" class="invalid-feedback">
+                    <div *ngIf="f['sickLeave'].errors['required']">Sick leave is required</div>
+                </div> -->
+                </div>
+              </div>
+            <div class="form-row">
+              <div class="form-group ">
+                <label for="inputCity">DOB</label>
+                <input type="text" formControlName="dob" class="form-control" [ngClass]="{ 'is-invalid': submitted && f['dob'].errors }" />
+                <div *ngIf="submitted && f['dob'].errors" class="invalid-feedback">
+                    <div *ngIf="f['dob'].errors['required']">DOB is required</div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="inputZip">Salary</label>
+                <input type="number" formControlName="salary" class="form-control" [ngClass]="{ 'is-invalid': submitted && f['salary'].errors }" />
+                <div *ngIf="submitted && f['salary'].errors" class="invalid-feedback">
+                    <div *ngIf="f['salary'].errors['required']">Salary required</div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label>Department</label>
+                <select  class="form-control">
+                  <option selected>comm..</option>
+                  <option>...</option>
+                </select>
+              </div>
+              
+            </div>
+           
+            <button  class="btn btn-primary mt-4" >{{!edit==true ? 'Save' :'Update'}}</button>
+            
+          </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
